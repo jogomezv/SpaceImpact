@@ -1,0 +1,65 @@
+[gd_scene load_steps=7 format=3 uid="uid://uwyntw6aoxqr"]
+
+[ext_resource type="Script" path="res://scripts/Level.cs" id="1_lnp2j"]
+[ext_resource type="PackedScene" uid="uid://fwcoqfkcus7x" path="res://scenes/Player.tscn" id="2_k7e48"]
+[ext_resource type="Script" path="res://scripts/Camera.cs" id="3_0a1pe"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_5hlfc"]
+distance = 1.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_2vqaf"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_2xcxj"]
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_lnp2j")
+
+[node name="Player" parent="." instance=ExtResource("2_k7e48")]
+position = Vector2(90, 70)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(0, 648)
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("WorldBoundaryShape2D_5hlfc")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+rotation = 3.14159
+shape = SubResource("WorldBoundaryShape2D_5hlfc")
+
+[node name="EndMapRight" type="Area2D" parent="."]
+position = Vector2(1200, 100)
+rotation = 1.5708
+collision_layer = 2
+collision_mask = 29
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="EndMapRight"]
+rotation = 3.14159
+shape = SubResource("WorldBoundaryShape2D_2vqaf")
+
+[node name="EndMapLeft" type="Area2D" parent="."]
+position = Vector2(50, 100)
+rotation = 1.5708
+collision_layer = 2
+collision_mask = 29
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EndMapLeft"]
+shape = SubResource("WorldBoundaryShape2D_2xcxj")
+
+[node name="RespawnEnemyTimmer" type="Timer" parent="."]
+
+[node name="RestartLevelTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="Camera" type="Camera2D" parent="."]
+position = Vector2(576, 326)
+script = ExtResource("3_0a1pe")
+
+[connection signal="PlayerShoot" from="Player" to="." method="OnPlayerShoot"]
+[connection signal="timeout" from="RespawnEnemyTimmer" to="." method="OnRespawnEnemyTimmerTimeout"]
+[connection signal="timeout" from="RestartLevelTimer" to="." method="OnEestartLevelTimerTimeout"]

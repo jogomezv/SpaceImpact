@@ -1,0 +1,54 @@
+[gd_scene load_steps=10 format=3 uid="uid://dhdr25eausnvm"]
+
+[ext_resource type="PackedScene" uid="uid://bug5mxu8ljo4w" path="res://scenes/Enemy.tscn" id="1_prglq"]
+[ext_resource type="Texture2D" uid="uid://b54xfcipy2uj6" path="res://assets/SpaceShooterAssetPack_Ships.png" id="2_e2wfk"]
+[ext_resource type="Script" path="res://scripts/BetaEnemy.cs" id="2_s8mdo"]
+[ext_resource type="Texture2D" uid="uid://c46cwwq1jtkcm" path="res://assets/SpaceShooterAssetPack_Miscellaneous.png" id="3_g8wly"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hh77w"]
+atlas = ExtResource("2_e2wfk")
+region = Rect2(57, 18, 5, 6)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3b8d4"]
+atlas = ExtResource("3_g8wly")
+region = Rect2(80, 48, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mjhyl"]
+atlas = ExtResource("3_g8wly")
+region = Rect2(88, 48, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_imte7"]
+atlas = ExtResource("3_g8wly")
+region = Rect2(96, 48, 8, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_aj0db"]
+resource_local_to_scene = true
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hh77w")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3b8d4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mjhyl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_imte7")
+}],
+"loop": false,
+"name": &"explode",
+"speed": 10.0
+}]
+
+[node name="BetaEnemy" instance=ExtResource("1_prglq")]
+script = ExtResource("2_s8mdo")
+
+[node name="AnimatedSprite2D" parent="." index="1"]
+sprite_frames = SubResource("SpriteFrames_aj0db")

@@ -1,0 +1,76 @@
+[gd_scene load_steps=10 format=3 uid="uid://bug5mxu8ljo4w"]
+
+[ext_resource type="Texture2D" uid="uid://b54xfcipy2uj6" path="res://assets/SpaceShooterAssetPack_Ships.png" id="1_8mt3w"]
+[ext_resource type="Script" path="res://scripts/Enemy.cs" id="1_l0duf"]
+[ext_resource type="Texture2D" uid="uid://c46cwwq1jtkcm" path="res://assets/SpaceShooterAssetPack_Miscellaneous.png" id="3_u23pg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k2r0o"]
+size = Vector2(4, 4)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yibdk"]
+atlas = ExtResource("1_8mt3w")
+region = Rect2(56, 24, 7, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3b8d4"]
+atlas = ExtResource("3_u23pg")
+region = Rect2(80, 48, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mjhyl"]
+atlas = ExtResource("3_u23pg")
+region = Rect2(88, 48, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_imte7"]
+atlas = ExtResource("3_u23pg")
+region = Rect2(96, 48, 8, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_h4w2q"]
+resource_local_to_scene = true
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yibdk")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3b8d4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mjhyl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_imte7")
+}],
+"loop": false,
+"name": &"explode",
+"speed": 10.0
+}]
+
+[node name="Enemy" type="Area2D"]
+scale = Vector2(10, 10)
+collision_layer = 4
+collision_mask = 9
+script = ExtResource("1_l0duf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_k2r0o")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+rotation = 1.5708
+sprite_frames = SubResource("SpriteFrames_h4w2q")
+
+[node name="ShootingPoint" type="Marker2D" parent="."]
+position = Vector2(-2, -8.67362e-19)
+rotation = 1.5708
+scale = Vector2(10, 10)
+
+[node name="ShootingTimer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[connection signal="area_entered" from="." to="." method="OnAreaEntered"]
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="onAnimatedAprite2DAnimationFinished"]
+[connection signal="timeout" from="ShootingTimer" to="." method="OnShootingTimerTimeout"]
